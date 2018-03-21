@@ -15,27 +15,6 @@ public class DocumentoPropuesta extends Documento {
 		this.ejercicio = ejercicio;
 		this.grupoPolitico = grupoPolitico;
 	}
-
-	public Integer getCodigo() {
-		return codigo;
-	}
-
-	public Integer getEjercicio() {
-		return ejercicio;
-	}
-
-	public String getGrupoPolitico() {
-		return grupoPolitico;
-	}
-
-	
-	@Override
-	public String toString() {
-		return "DocumentoPropuesta [codigo=" + codigo + ", ejercicio=" + ejercicio + ", grupoPolitico=" + grupoPolitico
-				+ "]";
-	}
-	
-	
 	
 
 }

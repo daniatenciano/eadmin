@@ -3,7 +3,7 @@ package es.fpdual.eadmin.eadmin.modelo;
 import java.util.List;
 import java.util.Date;
 
-public class Expediente {
+public class Expediente extends ModeloBaseAdministracionElectronica {
 	
 	private Integer codigo;
 	private String nombre;
@@ -18,58 +18,11 @@ public class Expediente {
 
 	public Expediente(Integer codigo, String nombre, Date fechaCreacion, Date fechaArchivado, Boolean publico,
 			EstadoExpediente estado, List<Documento> documentos) {
-	
-		this.codigo = codigo;
-		this.nombre = nombre;
-		this.fechaCreacion = fechaCreacion;
+	    super(codigo,nombre,fechaCreacion,publico);
+	    this.estado = estado;
 		this.fechaArchivado = fechaArchivado;
-		this.publico = publico;
-		this.estado = estado;
 		this.documentos = documentos;
 	}
-
-
-
-	public Integer getCodigo() {
-		return codigo;
-	}
-
-
-
-	public String getNombre() {
-		return nombre;
-	}
-
-
-
-	public Date getFechaCreacion() {
-		return fechaCreacion;
-	}
-
-
-
-	public Date getFechaArchivado() {
-		return fechaArchivado;
-	}
-
-
-
-	public Boolean getPublico() {
-		return publico;
-	}
-
-
-
-	public EstadoExpediente getEstado() {
-		return estado;
-	}
-
-
-
-	public List<Documento> getDocumentos() {
-		return documentos;
-	}
-
 
 
 	@Override
@@ -85,7 +38,6 @@ public class Expediente {
 		
 		
 		if (obj instanceof Expediente) {
-			final Expediente expediente = (Expediente) obj;
 			return codigo.equals(((Expediente)obj).getCodigo()) && nombre.equals(((Expediente)obj).getNombre()) && fechaCreacion.equals(((Expediente)
 obj).getFechaCreacion()) && fechaArchivado.equals(((Expediente)obj).getFechaCreacion()) && publico.equals(((Expediente)obj).getPublico())
             	&& estado.equals(((Expediente)obj).getEstado());	
