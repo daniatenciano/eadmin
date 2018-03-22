@@ -1,5 +1,6 @@
 package es.fpdual.eadmin.eadmin.repositorio.impl;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.Date;
 import org.junit.Before;
@@ -22,6 +23,15 @@ public class RepositorioDocumentoImplTest {
 	public void inicializarEnCadaTest() {
 		this.repositorioDocumento = new RepositorioDocumentoImpl();
 	}
+	
+	
+	@Test
+	public void deberiaDarAltaUnDocumento() {
+		assertFalse(this.repositorioDocumento.getDocumentos().isEmpty());
+	}
+ 	
+	
+	
 
 	@Test
 	public void deberiaEliminarUnDocumento() {
@@ -33,31 +43,27 @@ public class RepositorioDocumentoImplTest {
 		assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
 	}
 
+//	@Test
+//	public void deberiaComprobarUnElementoNull() {
+//
+//		// this.repositorioDocumento.getDocumentos().add(DOCUMENTO);
+//		this.repositorioDocumento.eliminarDocumento(DOCUMENTO.getCodigo());
+//
+//		assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
+//
+//	}
+//	
 	@Test
-	public void deberiaComprobarUnElementoNull() {
-
-		// this.repositorioDocumento.getDocumentos().add(DOCUMENTO);
+	public void deberiaEliminarUnDocumentoSiNoExiste() {
 		this.repositorioDocumento.eliminarDocumento(DOCUMENTO.getCodigo());
-
 		assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
-
-	}
-	
-	@Test
-	public void deberiaComprobarAltaDocumento() {
 		
-		this.repositorioDocumento = new RepositorioDocumentoImpl();
 	}
     	
 	@Test
 	public void deberiaComprobarModificarDocumento() {
-		
-		this.repositorioDocumento.modificarDocumento(DOCUMENTO);
-		
-		
-		
-		
-//		assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
+			
+	assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
 	}
 	
 }

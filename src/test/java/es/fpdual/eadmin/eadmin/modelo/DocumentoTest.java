@@ -23,7 +23,7 @@ public class DocumentoTest {
 		assertEquals(NOMBRE_DOCUMENTO,documento.getNombre());
 		assertEquals(FECHA_CREACION, documento.getFechaCreacion());
 		assertEquals(DOCUMENTO_PUBLICO, documento.getPublico());
-		assertEquals(EstadoDocumento.ACTIVO, documento.getEstado());
+
 		
 	}
 	
