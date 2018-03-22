@@ -61,6 +61,8 @@ public abstract class ModeloBaseAdministracionElectronica {
 		return codigo.hashCode();
 		
 	}
+	
+	
 
 
 	@Override
