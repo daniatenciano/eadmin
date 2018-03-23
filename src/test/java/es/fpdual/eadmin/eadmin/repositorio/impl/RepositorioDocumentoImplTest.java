@@ -27,6 +27,8 @@ public class RepositorioDocumentoImplTest {
 	
 	@Test
 	public void deberiaDarAltaUnDocumento() {
+		
+//		this.repositorioDocumento.altaDocumento(DOCUMENTO);
 		assertFalse(this.repositorioDocumento.getDocumentos().isEmpty());
 	}
  	

@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import es.fpdual.eadmin.eadmin.modelo.Documento;
+import es.fpdual.eadmin.eadmin.modelo.builder.DocumentoBuilder;
 import es.fpdual.eadmin.eadmin.repositorio.RepositorioDocumento;
 import es.fpdual.eadmin.eadmin.servicioss.ServicioDocumentoo;
 
@@ -56,6 +57,17 @@ public  class ServicioDocumentoImpl implements ServicioDocumentoo {
 				dameFechaActual(),
 				documento.getPublico(),
 				documento.getEstado());
+		
+		return new DocumentoBuilder().
+									conCodigo(documento.getCodigo()).
+									conNombre(documento.getNombre()).
+									conFechaCreacion(dameFechaActual()).
+									conPublico(documento.getPublico()).
+									conEstadoDocumento(documento.getEstado()).
+									construir();
+		
+		return  new DocumentoBuilder().clonar(documento).conFechaCreacion(dameFechaActual()).construir();
+		
 	}
 
 	protected static Date dameFechaActual() {

@@ -63,7 +63,7 @@ public class ServicioDocumentoImplTest {
 		
 		final Documento resultado = this.servicioDocumento.modificarDocumento(DOCUMENTO);
 		
-		verify(this.repositorioDocumento).altaDocumento(any());
+		verify(this.repositorioDocumento).altaDocumento(DOCUMENTO);
 		assertEquals(Integer.valueOf(1), resultado.getCodigo());
 		assertEquals("nombre",resultado.getNombre());
 		assertNotEquals(resultado.getFechaCreacion(), DOCUMENTO.getFechaCreacion());
