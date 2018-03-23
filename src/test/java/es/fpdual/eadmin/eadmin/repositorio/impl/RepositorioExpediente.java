@@ -1,4 +1,4 @@
-package es.fpdual.eadmin.eadmin.repositorio;
+package es.fpdual.eadmin.eadmin.repositorio.impl;
 
 import es.fpdual.eadmin.eadmin.modelo.Documento;
 import es.fpdual.eadmin.eadmin.modelo.Expediente;

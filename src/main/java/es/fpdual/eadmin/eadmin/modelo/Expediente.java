@@ -25,6 +25,13 @@ public class Expediente extends ModeloBaseAdministracionElectronica {
 	}
 
 
+	public Expediente(Integer codigoExpediente, Date fechaCreacion2, Date fechaArchivacion, String nombre2,
+			Boolean documentoPublico, EstadoExpediente enTramite, List<Documento> documento,
+			Date fechaUltimaModificacion) {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	@Override
 	public String toString() {
 		return "Expediente codigo=" + codigo + ", nombre=" + nombre + ", fechaCreacion=" + fechaCreacion
@@ -34,8 +41,6 @@ public class Expediente extends ModeloBaseAdministracionElectronica {
 	
 	@Override
 	public boolean equals(Object obj) {
-		
-		
 		
 		if (obj instanceof Expediente) {
 			return codigo.equals(((Expediente)obj).getCodigo()) && nombre.equals(((Expediente)obj).getNombre()) && fechaCreacion.equals(((Expediente)
@@ -52,5 +57,23 @@ obj).getFechaCreacion()) && fechaArchivado.equals(((Expediente)obj).getFechaCrea
 		return codigo.hashCode()+nombre.hashCode()+fechaCreacion.hashCode()+fechaArchivado.hashCode()+publico.hashCode()+estado.hashCode()
 		+ documentos.hashCode();
 		
+	}
+
+
+	public String fechaArchivado() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public String getDocumentos() {
+		
+		return null;
+	}
+
+
+	public Object indexOf(Expediente expediente) {
+
+		return null;
 	}
 }

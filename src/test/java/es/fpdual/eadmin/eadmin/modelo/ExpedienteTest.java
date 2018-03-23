@@ -1,9 +1,7 @@
 package es.fpdual.eadmin.eadmin.modelo;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.Date;
-
 import org.junit.Test;
 
 public class ExpedienteTest {
@@ -18,18 +16,9 @@ public class ExpedienteTest {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-
-	
 	@Test
 	
-	public  void deberiaComprobarGetters() {
+	public void deberiaComprobarGetters() {
 		
 		assertEquals(Integer.valueOf(CODIGO_EXPEDIENTE),expediente.getCodigo());
 		assertEquals(NOMBRE_EXPEDIENTE, expediente.getNombre());
@@ -37,8 +26,15 @@ public class ExpedienteTest {
 		assertEquals(EXPEDIENTE_PUBLICO, expediente.getPublico());
 	
 		
+		@Test
+		public void  deberiaComprobarToString() {
+			
+			equals( "Expediente codigo=" + expediente.getCodigo() + ", nombre=" + expediente.getNombre() + ", fechaCreacion=" + expediente.getFechaCreacion()
+					+ ", fechaArchivado=" + expediente.fechaArchivado() + ", publico=" + expediente.getPublico() + ", estado=" + expediente.getEstado() + ", documentos="
+					+ expediente.getDocumentos());
+		}
+		
 	}
-	
 	
 	
 }

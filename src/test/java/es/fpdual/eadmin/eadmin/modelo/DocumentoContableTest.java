@@ -1,5 +1,7 @@
 package es.fpdual.eadmin.eadmin.modelo;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -28,6 +30,11 @@ public class DocumentoContableTest {
 	public void comprobarelNOMBRE_DOCUMENTO() {
 		documentoContable.getNombre();
 
+	}
+	
+	@Test
+	public void comprobarToString() {
+		assertEquals( "DocumentoContable [importe=" + documentoContable.getImporte() + ", dniInteresado=" + documentoContable.getDniInteresado()+ "]", documentoContable.toString());
 	}
 	
 }
