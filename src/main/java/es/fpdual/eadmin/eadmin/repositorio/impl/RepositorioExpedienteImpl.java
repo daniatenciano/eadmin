@@ -52,6 +52,3 @@ public class RepositorioExpedienteImpl implements RepositorioExpediente {
 	}
 	
 }
-
-	
-	

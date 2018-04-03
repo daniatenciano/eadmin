@@ -21,6 +21,20 @@ public class Documento extends ModeloBaseAdministracionElectronica {
 
 
 
+	public Object obtenerDocumentoPorCodigo(int i) {
+		
+		return null;
+	}
+
+
+
+	public Object[] getFechaUltimaModificacion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 	
 	
 }

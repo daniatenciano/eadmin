@@ -51,6 +51,11 @@ public class DocumentoBuilder {
 		this.estado = documento.getEstado();
 		return this;
 	}
+
+	public DocumentoBuilder conFechaUltimaActualizacion(Date dameFechaActual) {
+
+		return null;
+	}
 	
 }
 	

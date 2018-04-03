@@ -28,7 +28,8 @@ public class Expediente extends ModeloBaseAdministracionElectronica {
 	public Expediente(Integer codigoExpediente, Date fechaCreacion2, Date fechaArchivacion, String nombre2,
 			Boolean documentoPublico, EstadoExpediente enTramite, List<Documento> documento,
 			Date fechaUltimaModificacion) {
-		// TODO Auto-generated constructor stub
+		super(codigoExpediente, nombre2, fechaUltimaModificacion, documentoPublico);
+	
 	}
 
 
@@ -75,5 +76,23 @@ obj).getFechaCreacion()) && fechaArchivado.equals(((Expediente)obj).getFechaCrea
 	public Object indexOf(Expediente expediente) {
 
 		return null;
+	}
+
+
+	public boolean contains(Expediente expediente) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public void add(Expediente expediente) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void set(Object indexOf, Expediente expediente) {
+		// TODO Auto-generated method stub
+		
 	}
 }

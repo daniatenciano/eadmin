@@ -1,5 +1,6 @@
 package es.fpdual.eadmin.eadmin.repositorio.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class RepositorioDocumentoImplTest {
 	public void deberiaDarAltaUnDocumento() {
 		
 //		this.repositorioDocumento.altaDocumento(DOCUMENTO);
-		assertFalse(this.repositorioDocumento.getDocumentos().isEmpty());
+		assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
 	}
  	
 	
@@ -42,7 +43,7 @@ public class RepositorioDocumentoImplTest {
 
 		this.repositorioDocumento.eliminarDocumento(DOCUMENTO.getCodigo());
 
-		assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
+		assertTrue(this.repositorioDocumento.getDocumentos().add(DOCUMENTO));
 	}
 
 //	@Test
@@ -68,4 +69,11 @@ public class RepositorioDocumentoImplTest {
 	assertTrue(this.repositorioDocumento.getDocumentos().isEmpty());
 	}
 	
+	@Test
+	public void deberiaEncontrarDocumentoConCodigo() {
+		this.repositorioDocumento.getDocumentos().add(DOCUMENTO);
+		Documento resultado = this.repositorioDocumento.obtenerDocumentoPorCodigo(DOCUMENTO.getCodigo());
+		assertTrue(this.repositorioDocumento.getDocumentos().add(DOCUMENTO));
+		
+	}
 }

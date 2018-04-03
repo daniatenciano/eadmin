@@ -1,5 +1,6 @@
 package es.fpdual.eadmin.eadmin.repositorio.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.Date;
@@ -37,5 +38,7 @@ public class RepositorioExpedienteImplTest {
 		this.repositorioExpediente.altaExpediente(expediente);
 		assertFalse(this.repositorioExpediente.getExpediente().isEmpty());
 	}
+	
+
 
 }

@@ -27,10 +27,10 @@ public class ExpedienteTest {
 	
 		
 		@Test
-		public void  deberiaComprobarElToString() {
+		public  deberiaComprobarToString() {
 			
-			assertEquals( "Expediente codigo=" + expediente.getCodigo() + ", nombre=" + expediente.getNombre() + ", fechaCreacion=" + expediente.getFechaCreacion()
-					+ ", fechaArchivado=" + expediente.fechaArchivado() + ", publico=" + expediente.getPublico() + ", estado=" + expediente.getEstado() + ", documentos="
+			assertEquals( "Expediente codigo = " + expediente.getCodigo() + ", nombre = " + expediente.getNombre() + ", fechaCreacion = " + expediente.getFechaCreacion()
+					+ ", fechaArchivado = " + expediente.fechaArchivado() + ", publico = " + expediente.getPublico() + ", estado = " + expediente.getEstado() + ", documentos = "
 					+ expediente.getDocumentos(),expediente.toString());
 		}
 		

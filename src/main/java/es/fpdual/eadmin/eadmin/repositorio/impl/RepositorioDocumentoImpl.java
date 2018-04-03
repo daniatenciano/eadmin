@@ -23,6 +23,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 
 		documentos.add(documento);
+		System.out.println("El"+documento.getNombre()+" se ha introducido");
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 	public List<Documento> getDocumentos() {
 		return documentos;
 	}
-
+	
 	@Override
 	public void eliminarDocumento(Integer codigo) {
 
@@ -51,18 +52,36 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 	}
 
-	// Documento documentoEncontrado = documentos.stream().filter(d ->
-	// tieneIgualCodigo(d,codigo))
-	// .findFirst().orElseGet(null);
-	//
-	// if(Objects.nonNull(documentoEncontrado))
-	// {
-	// documentos.remove(documentoEncontrado);
-	// }
+//	 Documento documentoEncontrado = documentos.stream().filter(d ->
+//	 tieneIgualCodigo(d,codigo))
+//	 .findFirst().orElseGet(null);
+//	
+//	 if(Objects.nonNull(documentoEncontrado))
+//	 {
+//	 documentos.remove(documentoEncontrado);
+//	 }
 	
 
 	protected boolean tieneIgualCodigo(Documento documento, Integer codigo) {
 		return documento.getCodigo().equals(codigo);
+	}
+
+	@Override
+	public Documento obtenerDocumentoPorCodigo(Integer codigo) {
+		
+		Optional<Documento> documentoEncontrado = documentos.stream().filter(d -> tieneIgualCodigo(d, codigo)).findFirst();
+		
+		if(documentoEncontrado.isPresent()) {
+			return documentoEncontrado.get();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List<Documento> obtenerTodosLosDocumentos() {
+
+		return null;
 	}
 
 }
