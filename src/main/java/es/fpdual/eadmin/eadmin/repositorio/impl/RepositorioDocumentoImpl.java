@@ -18,12 +18,12 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 	@Override
 	public void altaDocumento(Documento documento) {
 
-		if (!documentos.contains(documento)) {
+		if (documentos.contains(documento)) {
 			throw new IllegalArgumentException("El documento ya existe");
 		}
 
 		documentos.add(documento);
-		System.out.println("El"+documento.getNombre()+" se ha introducido");
+		System.out.println(" aEl "+documento.getNombre()+" se ha introducido");
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 	@Override
 	public List<Documento> obtenerTodosLosDocumentos() {
 
-		return null;
+		return documentos;
 	}
 
 }
