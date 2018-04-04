@@ -3,17 +3,20 @@ package es.fpdual.eadmin.eadmin.servicios.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import es.fpdual.eadmin.eadmin.modelo.Documento;
 import es.fpdual.eadmin.eadmin.modelo.builder.DocumentoBuilder;
 import es.fpdual.eadmin.eadmin.repositorio.RepositorioDocumento;
+import es.fpdual.eadmin.eadmin.repositorio.impl.RepositorioDocumentoImpl;
 import es.fpdual.eadmin.eadmin.servicioss.ServicioDocumentoo;
 
 @Service
 public  class ServicioDocumentoImpl implements ServicioDocumentoo {
 
-
+	
 //	private ServicioDocumento servicioDocumento;
 
 	private RepositorioDocumento repositorioDocumento;
