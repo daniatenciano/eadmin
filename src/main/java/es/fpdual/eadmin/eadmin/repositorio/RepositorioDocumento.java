@@ -6,7 +6,7 @@ import es.fpdual.eadmin.eadmin.modelo.Documento;
 
 public interface RepositorioDocumento {
 	
-	public abstract void altaDocumento(Documento documento);
+	public abstract Documento altaDocumento(Documento documento);
 	
 	public abstract void modificarDocumento(Documento documento);
 	
@@ -15,6 +15,8 @@ public interface RepositorioDocumento {
 	public abstract Documento obtenerDocumentoPorCodigo(Integer codigo);
 	
 	public abstract List<Documento> obtenerTodosLosDocumentos();
+
+	public abstract void archivoDocumentoarchivo();
 	
 	
 	
