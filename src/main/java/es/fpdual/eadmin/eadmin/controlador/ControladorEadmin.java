@@ -29,21 +29,20 @@ public class ControladorEadmin {
 		return new ResponseEntity<List<Documento>>(servicioDocumento.obtenerTodosLosDocumentos(), HttpStatus.OK);
 	}
 
-	@GetMapping(value="/eadmin/documentos/{codigo}")
-	public ResponseEntity<Documento> getDocumentoPorCodigo(@PathVariable ("codigo")Integer codigo) {
-		if(Objects.nonNull(codigo)) {
-		return new ResponseEntity<Documento>(
-				servicioDocumento.obtenerDocumentoPorCodigo(codigo),HttpStatus.OK);
-		
-	}
-	return new ResponseEntity<Documento>(HttpStatus.NOT_FOUND);
+	@GetMapping(value = "/eadmin/documentos/{codigo}")
+	public ResponseEntity<Documento> getDocumentoPorCodigo(@PathVariable("codigo") Integer codigo) {
+		if (Objects.nonNull(codigo)) {
+			return new ResponseEntity<Documento>(servicioDocumento.obtenerDocumentoPorCodigo(codigo), HttpStatus.OK);
+
+		}
+		return new ResponseEntity<Documento>(HttpStatus.NOT_FOUND);
 
 	}
-	
-	@DeleteMapping(value="/eadmin/documentos/eliminar/{codigo}")
+
+	@DeleteMapping(value = "/eadmin/documentos/eliminar/{codigo}")
 	public ResponseEntity<?> eliminarDocumento(@PathVariable("codigo") Integer codigo) {
 		this.servicioDocumento.eliminarDocumento(codigo);
-		
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
