@@ -2,6 +2,7 @@ package es.fpdual.eadmin.eadmin.repositorio.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -9,29 +10,46 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
-
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import es.fpdual.eadmin.eadmin.EadminApplication;
 import es.fpdual.eadmin.eadmin.modelo.Documento;
+import es.fpdual.eadmin.eadmin.modelo.Expediente;
 import es.fpdual.eadmin.eadmin.modelo.ModeloBaseAdministracionElectronica;
 import es.fpdual.eadmin.eadmin.repositorio.RepositorioDocumento;
 
 @Repository
-public abstract class RepositorioDocumentoImpl implements RepositorioDocumento {
+public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 	private static final Logger logger = LoggerFactory.getLogger(RepositorioDocumentoImpl.class);
 	private static List<Documento> documentos = new ArrayList<>();
 	RepositorioDocumento repositorioDocumento;
 	static ModeloBaseAdministracionElectronica documento;
 	private static final RepositorioDocumentoImpl rep = new RepositorioDocumentoImpl();
+	Documen
 
 	static String nombreFichero = "log.txt";
 	File file = new File(nombreFichero);
@@ -53,6 +71,7 @@ public abstract class RepositorioDocumentoImpl implements RepositorioDocumento {
 			throw new IllegalArgumentException("El documento ya existe");
 
 		}
+		exportExcel("Alta", documento, "documento.xls");
 
 		rep.documentoTXTAlta(documento);
 		documentos.add(documento);
@@ -234,8 +253,6 @@ public abstract class RepositorioDocumentoImpl implements RepositorioDocumento {
 			pw.close();
 
 		} catch (IOException e) {
-
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			pw.close();
 		}
@@ -252,16 +269,13 @@ public abstract class RepositorioDocumentoImpl implements RepositorioDocumento {
 			writer = new PrintWriter(fw);
 
 		} catch (IOException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
 
 		}
 
 		for (Documento doc : documentos) {
 
-			writer.println("************");
+			writer.println("***************");
 
 			writer.println("Codigo: " + doc.getCodigo());
 
@@ -275,82 +289,255 @@ public abstract class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 			writer.println("Fecha UltimaModificación: " + doc.getFechaUltimaModificacion());
 
-			writer.println("************");
+			writer.println("**************");
 		}
 		writer.close();
 
 	}
 
-	protected void exportar(Documento documento, String ruta) {
+	// protected void exportar(Documento documento, String ruta) {
+	//
+	// BufferedWriter bw = null;
+	// FileWriter fl = null;
+	// File archivo = new File(ruta);
+	// HSSFWorkbook workbook = new HSSFWorkbook();
+	// HSSFSheet sheet = workbook.createSheet("Mi hoja");
+	// HSSFRow nombreFila = sheet.createRow(0);
+	// HSSFCell cell = null;
+	// String[] titulos = { "Documentos.ID", "Nombre", "Fecha Creacion", "Publico",
+	// "Estado",
+	// "Fecha Ultima Modificacion" };
+	//
+	// for (int j = 0; j < titulos.length; j++) {
+	// cell = nombreFila.createCell(j);
+	// cell.setCellValue(titulos[j]);
+	// }
+	//
+	// HSSFRow nombreFila1 = sheet.createRow(1);
+	// cell = nombreFila1.createCell(0);
+	// cell.setCellValue(documento.getCodigo());
+	// cell = nombreFila1.createCell(1);
+	// cell.setCellValue(documento.getNombre());
+	// cell = nombreFila1.createCell(2);
+	// cell.setCellValue(documento.getFechaCreacion());
+	// cell = nombreFila1.createCell(3);
+	// cell.setCellValue(documento.getPublico());
+	// cell = nombreFila1.createCell(4);
+	// cell.setCellValue(documento.getEstado());
+	// cell = nombreFila1.createCell(5);
+	// cell.setCellValue(documento.getFechaUltimaModificacion());
+	//
+	// try {
+	//
+	// // Creamos el flujo de salida de datos,
+	// // apuntamos el archivo donde queremos almacenar el libro Excel
+	//
+	// FileOutputStream salida = new FileOutputStream(archivo, true);
+	//
+	// // Almacenamos el libro Excel via ese, flujo de datos
+	// workbook.write(salida);
+	//
+	// // Cerramos el libro para concluir operaciones
+	//// workbook.close();
+	//
+	// } catch (FileNotFoundException ex) {
+	// System.out.println("ERROR!");
+	// } catch (IOException ex) {
+	// System.out.println("ERROR!");
+	// }
+	//
+	// Integer numeroLineas = 0;
+	//
+	// // Datos a escribir en map(Object[])
+	// Map<String, Object[]> data = new TreeMap<String, Object[]>();
+	// // Cabecera
+	// File archivoExcel = new File("FPdUAL.xlsx");
+	// if (!archivoExcel.exists()) {
+	// data.put("0", new Object[] { "ID", "PC", "NOMBRE", "APELLIDOS" });
+	// numeroLineas = 1;
+	//
+	// } else {
+	//
+	// RepositorioDocumentoImpl ImportExcel;
+	// ArrayList<String[]> datoExcel = ImportExcel.importExcel("FPDual.xlsx", 4);
+	// List<Documento> datosExcel;
+	// ListIterator<String[]> it = datosExcel.listIterator();
+	//
+	// while (it.hasNext()) {
+	// numeroLineas++;
+	// String[] datos = it.next();
+	// data.put(numeroLineas.toString(), datos);
+	// }
+	// }
+	// }
 
-		BufferedWriter bw = null;
-		FileWriter fl = null;
-		File archivo = new File(ruta);
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("Mi hoja");
-		HSSFRow nombreFila = sheet.createRow(0);
-		HSSFCell cell = null;
-		String[] titulos = { "Documentos.ID", "Nombre", "Fecha Creacion", "Publico", "Estado",
-				"Fecha Ultima Modificacion" };
-
-		for (int j = 0; j < titulos.length; j++) {
-			cell = nombreFila.createCell(j);
-			cell.setCellValue(titulos[j]);
-		}
-
-		HSSFRow nombreFila = sheet.createRow(1);
-		cell = nombreFila.createCell(0);
-		cell.setCellValue(documento.getCodigo());
-		cell = nombreFila.createCell(1);
-		cell.setCellValue(documento.getNombre());
-		cell = nombreFila.createCell(2);
-		cell.setCellValue(documento.getFechaCreacion(), toString());
-		cell = nombreFila.createCell(3);
-		cell.setCellValue(documento.getPublico());
-		cell = nombreFila.createCell(4);
-		cell.setCellValue(documento.getEstado(), toString());
-		cell = nombreFila.createCell(5);
-		cell.setCellValue(documento.getFechaUltimaModificacion(), toString());
+	public static void exportExcel(String nombreHoja, Documento documento, String fileName) {
 
 		try {
+			FileInputStream inputStream = new FileInputStream(new File(fileName));
+			Workbook workbook = WorkbookFactory.create(inputStream);
 
-			// Creamos el flujo de salida de datos,
-			// apuntamos el archivo donde queremos almacenar el libro Excel
-
-			FileOutputStream salida = new FileOutputStream(archivo, true);
-
-			// Almacenamos el libro Excel via ese, flujo de datos
-			workbook.write(salida);
-
-			// Cerramos el libro para concluir operaciones
-			workbook.close();
-
-		} catch (FileNotFoundException ex) {
-			System.out.println("ERROR!");
-		} catch (IOException ex) {
-			System.out.println("ERROR!");
-		}
-
-		Integer numeroLineas = 0;
-
-		// Datos a escribir en map(Object[])
-		Map<String, Object[]> data = new TreeMap<String, Object[]>();
-		// Cabecera
-		File archivoExcel = new File("FPdUAL.xlsx");
-		if (!archivoExcel.exists()) {
-			data.put("0", new Object[] { "ID", "PC", "NOMBRE", "APELLIDOS" });
-			numeroLineas = 1;
-
-		} else {
-			ArrayList<String[]> datoExcel = ImportExcel.importExcel("FPDual.xlsx", 4);
-			List<Documento> datosExcel;
-			ListIterator<String[]> it = datosExcel.listIterator();
-
-			while (it.hasNext()) {
-				numeroLineas++;
-				String[] datos = it.next();
-				data.put(numeroLineas.toString(), datos);
+			int numeroHoja;
+			if (nombreHoja.equals("Documentos")) {
+				numeroHoja = 0;
+			} else if (nombreHoja.equals("Alta")) {
+				numeroHoja = 1;
+			} else if (nombreHoja.equals("Modificar")) {
+				numeroHoja = 2;
+			} else {
+				numeroHoja = 3;
 			}
+
+			Sheet sheet = workbook.getSheetAt(numeroHoja);
+
+			Object[] bookData = { documento.getCodigo(), documento.getNombre(), documento.getFechaCreacion().toString(),
+					documento.getEstado().toString() };
+
+			int rowCount = sheet.getLastRowNum();
+
+			Row row = sheet.createRow(++rowCount);
+
+			int columnCount = 0;
+
+			Cell cell = row.createCell(columnCount);
+			cell.setCellValue(rowCount);
+
+			for (Object field : bookData) {
+				cell = row.createCell(++columnCount);
+				if (field instanceof String) {
+					cell.setCellValue((String) field);
+				} else if (field instanceof Integer) {
+					cell.setCellValue((Integer) field);
+				}
+			}
+
+			inputStream.close();
+
+			FileOutputStream outputStream = new FileOutputStream(fileName);
+			workbook.write(outputStream);
+			// workbook.close();
+			outputStream.close();
+
+		} catch (IOException | EncryptedDocumentException | InvalidFormatException ex) {
+			ex.printStackTrace();
 		}
+	}
+
+	// // Creamos el libro de trabajo
+	// XSSFWorkbook libro = new XSSFWorkbook();
+	//
+	// // Creacion de Hoja
+	// XSSFSheet hoja = libro.createSheet(nombreHoja);
+	//
+	// // Iteramos el map e insertamos los datos
+	// Set<String> keyset = data.keySet();
+	// int rownum = 0;
+	// for (String key : keyset) {
+	// // cramos la fila
+	// Row row = hoja.createRow(rownum++);
+	// // obtenemos los datos de la fila
+	// Object[] objArr = data.get(key);
+	// int cellnum = 0;
+	// // iteramos cada dato de la fila
+	// for (Object obj : objArr) {
+	// // Creamos la celda
+	// Cell cell = row.createCell(cellnum++);
+	// // Setteamos el valor con el tipo de dato correspondiente
+	// if (obj instanceof String)
+	// cell.setCellValue((String) obj);
+	// else if (obj instanceof Integer)
+	// cell.setCellValue((Integer) obj);
+	// }
+	// }
+	// try {
+	// // Escribimos en fichero
+	// FileOutputStream out = new FileOutputStream(new File(fileName));
+	// libro.write(out);
+	// //cerramos el fichero y el libro
+	// out.close();
+	//// libro.close();
+	// System.out.println("Excel exportado correctamente\n");
+	// return true;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return false;
+	// }
+	// }
+
+	public static ArrayList<String[]> importExcel(String fileName, int numColums) {
+
+		// ArrayList donde guardaremos todos los datos del excel
+		ArrayList<String[]> data = new ArrayList<>();
+
+		try {
+			// Acceso al fichero xlsx
+			FileInputStream file = new FileInputStream(new File(fileName));
+
+			// Creamos la referencia al libro del directorio dado
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+
+			// Obtenemos la primera hoja
+			XSSFSheet sheet = workbook.getSheetAt(0);
+
+			// Iterador de filas
+			Iterator<Row> rowIterator = sheet.iterator();
+
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				// Iterador de celdas
+				Iterator<Cell> cellIterator = row.cellIterator();
+				// contador para el array donde guardamos los datos de cada fila
+				int contador = 0;
+				// Array para guardar los datos de cada fila
+				// y añadirlo al ArrayList
+				String[] fila = new String[numColums];
+				// iteramos las celdas de la fila
+				while (cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+
+					// Guardamos los datos de la celda segun su tipo
+					switch (cell.getCellType()) {
+					// si es numerico
+					case Cell.CELL_TYPE_NUMERIC:
+						fila[contador] = (int) cell.getNumericCellValue() + "";
+						break;
+					// si es cadena de texto
+					case Cell.CELL_TYPE_STRING:
+						fila[contador] = cell.getStringCellValue() + "";
+						break;
+					}
+					// Si hemos terminado con la ultima celda de la fila
+					if ((contador + 1) % numColums == 0) {
+						// Añadimos la fila al ArrayList con todos los datos
+						data.add(fila);
+					}
+					// Incrementamos el contador
+					// con cada fila terminada al redeclarar arriba el contador,
+					// no obtenemos excepciones de ArrayIndexOfBounds
+					contador++;
+				}
+			}
+			// Cerramos el fichero y workbook
+			file.close();
+			// workbook.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("Excel importado correctamente\n");
+
+		return data;
+	}
+
+	@Override
+	public void archivoDocumentoarchivo() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void altaExpediene(Expediente expediente) {
+		// TODO Auto-generated method stub
+
 	}
 }

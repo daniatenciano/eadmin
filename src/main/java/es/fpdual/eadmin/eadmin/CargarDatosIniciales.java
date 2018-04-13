@@ -34,13 +34,15 @@ public class CargarDatosIniciales implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 
 	
-		Documento documento = new Documento(1, "Documento1", Fecha, true, EstadoDocumento.ACTIVO); 	
+		Documento documento = new Documento(1, "Documento1", Fecha, true, EstadoDocumento.ACTIVO);
+		
+		Documento documento2 = new Documento(2, "Documento2", Fecha, true, EstadoDocumento.APROBADO);
 
 		this.repositorioDocumeto.altaDocumento(documento);
 
-		this.repositorioDocumeto.altaDocumento(new Documento(2, "Documento2", Fecha, false, EstadoDocumento.ACTIVO));
+		this.repositorioDocumeto.altaDocumento(new Documento(3, "Documento3", Fecha, false, EstadoDocumento.ACTIVO));
 
-		this.repositorioDocumeto.altaDocumento(new Documento(3, "Documento3", Fecha, true, EstadoDocumento.APROBADO));
+		this.repositorioDocumeto.altaDocumento(new Documento(4, "Documento4", Fecha, true, EstadoDocumento.APROBADO));
 
 		RepositorioDocumentoImpl.archivarTodosLosDocumentos(this.repositorioDocumeto.obtenerTodosLosDocumentos());
 

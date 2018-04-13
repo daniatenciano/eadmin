@@ -18,8 +18,7 @@ public class Documento extends ModeloBaseAdministracionElectronica {
 		this.estado = estado;
 
 	}
-
-
+	
 
 	public Object obtenerDocumentoPorCodigo(int i) {
 		
@@ -27,14 +26,8 @@ public class Documento extends ModeloBaseAdministracionElectronica {
 	}
 
 
-
 	public Object[] getFechaUltimaModificacion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-
-
-	
-	
+		return this.getFechaUltimaModificacion();
+	}	
 }
